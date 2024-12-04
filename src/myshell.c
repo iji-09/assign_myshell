@@ -20,7 +20,7 @@ int main()
 
         // read command
         fgets(input, MAX_LINE, stdin);
-        printf("%s", input);
+        // printf("%s", input);
 
         // tokenize input
         token = strtok(input, " \n\t");
