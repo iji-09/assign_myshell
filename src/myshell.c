@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 
 #define MAX_LINE 80
@@ -19,7 +20,7 @@ int main()
 
         // read command
         fgets(input, MAX_LINE, stdin);
-        printf("%s\n", input);
+        printf("%s", input);
 
         // tokenize input
         token = strtok(input, " \n\t");
@@ -36,6 +37,13 @@ int main()
         if(strcmp(argv[0], "exit") == 0){
             printf("Good bye~\n");
             exit(0);
+        }
+        else if(strcmp(argv[0], "cd") == 0){
+            chdir(argv[1]);
+        }
+        else if(strcmp(argv[0], "pwd") == 0){
+            getcwd(input, MAX_LINE);
+            printf("%s\n", input);
         }
 
     }
