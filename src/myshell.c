@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <fcntl.h>
+#include "ls_command.h"
 
 
 #define MAX_LINE 80
@@ -45,6 +47,49 @@ int main()
             getcwd(input, MAX_LINE);
             printf("%s\n", input);
         }
+        else if(strcmp(argv[0], "ls") == 0){
+            my_ls();
+        }
+        else if(strcmp(argv[0], "cat") == 0){
+            // you code comes here...
+            // cat 구현
+            // argv[1]이 필요
+            
+            //--------------------------
+            if (argv[1] == NULL) {
+                printf("cat: missing file operand\n");
+            }
+            else {
+                int fd = open(argv[1], O_RDONLY);
+
+                    if (fd < 0) {
+                        perror("cat");
+                    } 
+                    else {
+                        char buffer[1024];
+                        ssize_t bytes_read;
+                        while ((bytes_read = read(fd, buffer, sizeof(buffer) - 1)) > 0) {
+                            buffer[bytes_read] = '\0';
+                            printf("%s", buffer);
+                        }
+                        if (bytes_read < 0) {
+                            perror("cat");
+                        }
+                    close(fd);
+                }
+            }
+            //--------------------------
+
+        }
+        else{
+            if(access(argv[0], X_OK) == 0){
+                printf("execute %s\n", argv[0]);
+            }
+            else{
+                printf("command not found: %s\n", argv[0]);
+            }
+        }
+        
 
     }
 
